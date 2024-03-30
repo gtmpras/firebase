@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "446041018786",
+    "project_id": "dumy-ce60a",
+    "storage_bucket": "dumy-ce60a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446041018786:android:444de277a6ee2e9dc122fb",
+        "android_client_info": {
+          "package_name": "com.example.fire_base"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNgjU2_4XQjPptWXeQfntwr4gWDO0_E_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

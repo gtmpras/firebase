@@ -133,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               builder: (context) => LoginScreen()));
                     },
                     child: Text(
-                      login,
+                      Login,
                       style: TextStyle(color: Colors.blue),
                     ))
               ],

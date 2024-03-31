@@ -1,6 +1,8 @@
 import 'package:fire_base/consts/strings.dart';
 import 'package:fire_base/ui/auth/signup_screen.dart';
+import 'package:fire_base/utils/utils.dart';
 import 'package:fire_base/widgets/round_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final _auth = FirebaseAuth.instance ;
 
   @override
   void dispose() {
@@ -24,6 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController.dispose();
   }
 
+  void login(){
+    _auth.signInWithEmailAndPassword(
+      email: emailController.text, 
+      password: passwordController.text).then((value){
+        Utils().toastMessage(value.user!.email.toString());
+    }).onError((error, stackTrace) {
+      debugPrint(error.toString());
+      Utils().toastMessage(error.toString());
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -36,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: Colors.deepPurple,
-          title: Text(login,style: TextStyle(color: Colors.white),),
+          title: Text(Login,style: TextStyle(color: Colors.white),),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -88,9 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 50,
               ),
               RoundButton(
-                title: login,
+                title: Login,
                 ontap: () {
                   if (_formKey.currentState!.validate()) ;
+                  login();
                 },
               ),
               SizedBox(height: 30,),

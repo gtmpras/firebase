@@ -1,5 +1,6 @@
 import 'package:fire_base/consts/strings.dart';
 import 'package:fire_base/ui/auth/signup_screen.dart';
+import 'package:fire_base/ui/posts/post_screen.dart';
 import 'package:fire_base/utils/utils.dart';
 import 'package:fire_base/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool loading = false;
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -28,13 +30,26 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login(){
+    setState(() {
+      loading = true;
+    });
     _auth.signInWithEmailAndPassword(
       email: emailController.text, 
       password: passwordController.text).then((value){
         Utils().toastMessage(value.user!.email.toString());
+        Navigator.push(context, 
+        MaterialPageRoute(builder: (context)=>PostScreen()));
+
+        setState(() {
+          loading = false;
+        });
     }).onError((error, stackTrace) {
       debugPrint(error.toString());
       Utils().toastMessage(error.toString());
+
+      setState(() {
+        loading = false;
+      });
     });
   }
   @override
@@ -102,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RoundButton(
                 title: Login,
+                loading: loading,
                 ontap: () {
                   if (_formKey.currentState!.validate()) ;
                   login();

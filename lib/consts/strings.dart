@@ -5,3 +5,4 @@ const email = "Email";
 const password = "Password";
 const Login = "Login";
 const signUp = "Sign up";
+const phonelogin = "Login with Phone";

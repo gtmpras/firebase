@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'login_with_phone_number.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -136,6 +138,25 @@ class _LoginScreenState extends State<LoginScreen> {
       
                 ],
               ),
+
+              SizedBox(height: 30,),
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginWithPhoneNumber()));
+                },
+                child: Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: Colors.black
+                    )
+                  ),
+                  child: Center(
+                    child: Text(phonelogin),
+                  ),
+                ),
+              )
             ],
           ),
         ),

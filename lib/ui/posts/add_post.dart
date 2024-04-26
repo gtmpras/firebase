@@ -14,7 +14,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final postController = TextEditingController();
   bool loading = false;
   final DatabaseRef = FirebaseDatabase.instance
-      .ref('Test'); //creating table and providing table_name
+      .ref('Post'); //creating table and providing table_name
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +46,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                   setState(() {
                     loading = true;
                   });
-                  DatabaseRef.child('Prasoon').set({
-                    'desc': postController.text.toString(),
-                    'id': 1,
+                  DatabaseRef.child(DateTime.now().millisecondsSinceEpoch.toString()).set({
+                    'title': postController.text.toString(),
+                    'id': DateTime.now().millisecondsSinceEpoch.toString(),
                   }).then((value) {
                     Utils().toastMessage("Post Added");
                     setState(() {

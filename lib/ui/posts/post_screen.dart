@@ -1,4 +1,5 @@
 import 'package:fire_base/ui/auth/login_screen.dart';
+import 'package:fire_base/ui/posts/add_post.dart';
 import 'package:fire_base/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,10 @@ class _PostScreenState extends State<PostScreen> {
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>AddPostScreen()));
+      },
+      child: Icon(Icons.add),),
     );
   }
 }

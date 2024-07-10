@@ -72,6 +72,18 @@ class _PostScreenState extends State<PostScreen> {
                         snapshot.child('title').value.toString(),
                       ),
                       subtitle: Text(snapshot.child('id').value.toString()),
+                       trailing: PopupMenuButton(itemBuilder: (context)=>[
+                        PopupMenuItem(child: ListTile(
+                          leading: Icon(Icons.edit),
+                          title: Text("Edit"),
+                        )),
+                       PopupMenuItem(child: ListTile(
+                          leading: Icon(Icons.delete_outline),
+                          title: Text("Delete"),
+                        )),
+                      ]
+                      ,
+                      icon: Icon(Icons.more_vert),),
                     );
                   } else if (title
                       .toLowerCase()
@@ -81,6 +93,7 @@ class _PostScreenState extends State<PostScreen> {
                         snapshot.child('title').value.toString(),
                       ),
                       subtitle: Text(snapshot.child('id').value.toString()),
+                     
                     );
                   } else {
                     return Container();

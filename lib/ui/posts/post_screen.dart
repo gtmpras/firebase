@@ -76,6 +76,10 @@ class _PostScreenState extends State<PostScreen> {
                         PopupMenuItem(child: ListTile(
                           leading: Icon(Icons.edit),
                           title: Text("Edit"),
+                          onTap: (){
+                            Navigator.pop(context);
+                            showMyDialogue();
+                          },
                         )),
                        PopupMenuItem(child: ListTile(
                           leading: Icon(Icons.delete_outline),
@@ -110,5 +114,17 @@ class _PostScreenState extends State<PostScreen> {
         child: Icon(Icons.add),
       ),
     );
+  }
+  Future <void>showMyDialogue()async{
+    return showDialog(context: context,
+     builder: (BuildContext context){
+      return AlertDialog(
+        title:  Text('Update'),
+        content: Container(
+          child: TextField(),
+        ),
+        actions: [],
+      );
+     }); 
   }
 }

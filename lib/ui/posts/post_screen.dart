@@ -19,6 +19,7 @@ class _PostScreenState extends State<PostScreen> {
   final ref = FirebaseDatabase.instance
       .ref('Post'); //This name should be same as the name in database table
   final searchFilter = TextEditingController();
+  final editController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,22 +73,25 @@ class _PostScreenState extends State<PostScreen> {
                         snapshot.child('title').value.toString(),
                       ),
                       subtitle: Text(snapshot.child('id').value.toString()),
-                       trailing: PopupMenuButton(itemBuilder: (context)=>[
-                        PopupMenuItem(child: ListTile(
-                          leading: Icon(Icons.edit),
-                          title: Text("Edit"),
-                          onTap: (){
-                            Navigator.pop(context);
-                            showMyDialogue();
-                          },
-                        )),
-                       PopupMenuItem(child: ListTile(
-                          leading: Icon(Icons.delete_outline),
-                          title: Text("Delete"),
-                        )),
-                      ]
-                      ,
-                      icon: Icon(Icons.more_vert),),
+                      trailing: PopupMenuButton(
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                              child: ListTile(
+                            leading: Icon(Icons.edit),
+                            title: Text("Edit"),
+                            onTap: () {
+                              Navigator.pop(context);
+                              showMyDialogue(title,snapshot.child('id').value.toString());
+                            },
+                          )),
+                          PopupMenuItem(
+                              child: ListTile(
+                            leading: Icon(Icons.delete_outline),
+                            title: Text("Delete"),
+                          )),
+                        ],
+                        icon: Icon(Icons.more_vert),
+                      ),
                     );
                   } else if (title
                       .toLowerCase()
@@ -97,7 +101,6 @@ class _PostScreenState extends State<PostScreen> {
                         snapshot.child('title').value.toString(),
                       ),
                       subtitle: Text(snapshot.child('id').value.toString()),
-                     
                     );
                   } else {
                     return Container();
@@ -115,16 +118,44 @@ class _PostScreenState extends State<PostScreen> {
       ),
     );
   }
-  Future <void>showMyDialogue()async{
-    return showDialog(context: context,
-     builder: (BuildContext context){
-      return AlertDialog(
-        title:  Text('Update'),
-        content: Container(
-          child: TextField(),
-        ),
-        actions: [],
-      );
-     }); 
+
+  Future<void> showMyDialogue(String title, String id) async {
+    editController.text = title;
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Update'),
+            content: Container(
+              child: TextField(
+                controller: editController,
+                decoration: InputDecoration(
+                  hintText: "Edit here",
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Cancel"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  ref.child(id).update({
+                    'title': editController.text.toLowerCase()
+                  }).then((value) {
+                    Utils().toastMessage('Post Update');
+                  }).onError((error, stackTrace) {
+                    Utils().toastMessage(error.toString());
+                  });
+                },
+                child: Text("Update"),
+              ),
+            ],
+          );
+        });
   }
 }

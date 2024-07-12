@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_base/ui/auth/login_screen.dart';
 import 'package:fire_base/ui/firestore/add_firestore_data.dart';
 import 'package:fire_base/ui/posts/add_post.dart';
@@ -20,6 +21,8 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
   final auth = FirebaseAuth.instance;
   final searchFilter = TextEditingController();
   final editController = TextEditingController();
+  final fireStore = FirebaseFirestore.instance.collection('Prasoon').snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,15 +52,26 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
             height: 10,
           ),
          
-          Expanded(
+         StreamBuilder<QuerySnapshot>(stream: fireStore, 
+         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+           
+           if(snapshot.connectionState == ConnectionState.waiting)
+            return CircularProgressIndicator();
+          if(snapshot.hasError)
+            return Text('Some error');
+
+          return    Expanded(
             //retriving data from firebase
             child: ListView.builder(
-              itemCount: 10,
+              itemCount: snapshot.data!.docs.length,
               itemBuilder: (context,index){
+
               return ListTile(
-                title: Text('Prasoon'),
+                title: Text(snapshot.data!.docs[index]['title'].toString()),
               );
             })          )
+       ;
+         }),
         ],
       ),
       floatingActionButton: FloatingActionButton(

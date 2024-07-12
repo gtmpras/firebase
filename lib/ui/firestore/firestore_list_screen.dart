@@ -23,6 +23,9 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
   final editController = TextEditingController();
   final fireStore = FirebaseFirestore.instance.collection('Prasoon').snapshots();
 
+  CollectionReference ref = FirebaseFirestore.instance.collection('Prasoon');
+  //OR final ref1 = FirebseFirestore.instance.collection('Prasoon'); are same choose one wisely
+  //specially first one type is considered as best.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +70,19 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
               itemBuilder: (context,index){
 
               return ListTile(
+                onTap: (){
+                  ref.doc(snapshot.data!.docs[index]['id'].toString()).update({
+                    'title': 'Prasoon Gautam Dang'
+                  }).then((value){
+                    Utils().toastMessage("Updated");
+                  }).onError((error, stackTrace) {
+                    Utils().toastMessage(error.toString());
+                  });
+
+                  ref.doc(snapshot.data!.docs[index]['id'].toString()).delete();
+                },
                 title: Text(snapshot.data!.docs[index]['title'].toString()),
+                subtitle: Text(snapshot.data!.docs[index]['id'].toString()),
               );
             })          )
        ;

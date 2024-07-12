@@ -78,27 +78,29 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                   });
                   firebase_storage.Reference ref = firebase_storage
                       .FirebaseStorage.instance
-                      .ref('/FolderName' + '1234');
+                      .ref('/PrasFolder/' +DateTime.now().millisecondsSinceEpoch.toString() );
                   firebase_storage.UploadTask uploadTask =
                       ref.putFile(_image!.absolute);
 
-                  await Future.value(uploadTask);
-                  var newUrl = ref.getDownloadURL();
+                  await Future.value(uploadTask).then((value) async {
+                    var newUrl = await ref.getDownloadURL();
 
-                  databaseRef.child('1').set(
-                      {'id': '1212', 'title': newUrl.toString()}).then((value) {
-                    setState(() {
-                      loading = false;
-                    });
-                    
-                  Utils().toastMessage("Uploaded");
-                  }).onError((error, stackTrace) {
-                    setState(() {
-                      loading = false;
+                    databaseRef
+                        .child('1')
+                        .set({'id': '1212', 'title': newUrl.toString()}).then(
+                            (value) {
+                      setState(() {
+                        loading = false;
+                      });
+
+                      Utils().toastMessage("Uploaded");
+                    }).onError((error, stackTrace) {
+                      setState(() {
+                        loading = false;
+                      });
                     });
                   });
-
-                })
+                }),
           ],
         ),
       ),

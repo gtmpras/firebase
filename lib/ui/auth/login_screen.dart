@@ -1,5 +1,7 @@
+import 'package:fire_base/consts/consts.dart';
 import 'package:fire_base/consts/strings.dart';
 import 'package:fire_base/ui/auth/signup_screen.dart';
+import 'package:fire_base/ui/forgot_password.dart';
 import 'package:fire_base/ui/posts/post_screen.dart';
 import 'package:fire_base/utils/utils.dart';
 import 'package:fire_base/widgets/round_button.dart';
@@ -125,7 +127,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   login();
                 },
               ),
-              SizedBox(height: 30,),
+
+              Align(
+                alignment: Alignment.bottomRight,
+                child: TextButton(onPressed: (){
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context)=> ForgotPasswordScreen()));
+                }, 
+                child:Text(forgotPassword,style: TextStyle(color: Colors.deepPurple),)),
+              ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

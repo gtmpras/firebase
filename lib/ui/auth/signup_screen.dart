@@ -115,6 +115,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ontap: () {
                 if (_formKey.currentState!.validate()) {
                   signup();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+                Utils().toastMessage(signUpSuccess);
                 }
               },
             ),
